@@ -7,8 +7,11 @@ interface Props {
 
 const HeaderLink = ({ href, children }: Props) => {
   return (
-    <a className="text-white  no-underline  cursor-pointer" href={href}>
-     {children}
+    <a
+      className="cursor-pointer  text-INVERSE_TEXT_COLOR  no-underline m-1"
+      href={href}
+    >
+      {children}
     </a>
   );
 };
