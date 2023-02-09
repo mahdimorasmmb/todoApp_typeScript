@@ -4,7 +4,9 @@ type TypeButtonKey = keyof typeof variantButton;
 
 interface Prpos {
   children: ReactNode;
-  type?: TypeButtonKey;
+  variant?: TypeButtonKey;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  type?:React.ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
 const variantButton = {
@@ -14,10 +16,12 @@ const variantButton = {
   transparent: "bg-transparent text-TEXT_COLOR",
 };
 
-const Button = ({ children, type = "transparent" }: Prpos) => {
+const Button = ({ children, variant = "transparent", onClick,type="button" }: Prpos) => {
   return (
     <button
-      className={`border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase ${variantButton[type]}`}
+      type={type}
+      onClick={onClick}
+      className={`border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase ${variantButton[variant]}`}
     >
       {children}
     </button>
