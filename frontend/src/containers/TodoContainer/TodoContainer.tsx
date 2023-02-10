@@ -2,25 +2,26 @@ import React, { ReactEventHandler, useState } from "react";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import generateKey from "../../tools/generateKey";
+import { trpc } from "../../utils/trpc";
 import AddTodoItem from "./AddTodoItem";
 import TodoItem from "./TodoItem";
 
 const TodoContainer = () => {
-  const [todos, setTodos] = useState([
-    "todo1 ",
-    "progrsaming",
-    "create eng",
-    "lern english",
-  ]);
+  const todos = trpc.todos.useQuery();
+  const mutation = trpc.addTodo.useMutation();
 
-  const onAddClicked = (task: string) => {
-    setTodos([...todos, task]);
+  const onAddClicked = async (task: string) => {
+    await mutation.mutate({ todo: task },{onSuccess:()=>{
+      todos.refetch()
+    }});
+
+
   };
   return (
     <>
       <AddTodoItem onAddClicked={onAddClicked} />
-      {todos.map((todo) => (
-        <TodoItem key={generateKey(todo)} todo={todo} />
+      {todos.data?.map((todo) => (
+        <TodoItem key={generateKey(todo.id)} todo={todo.content} />
       ))}
     </>
   );
