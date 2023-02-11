@@ -7,13 +7,16 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-
 model Todo {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  content   String
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  task        String
+  isDone      Boolean  @default(false)
+  handNotes   String
+  description String
 }
+
 // model User {
 //   id    Int     @id @default(autoincrement())
 //   email String  @unique

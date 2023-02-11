@@ -20,25 +20,61 @@ type Context = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
   addTodo: t.procedure
-    .input(z.object({ todo: z.string() }))
+    .input(z.object({ task: z.string() }))
     .mutation(async (req) => {
       const {
-        input: { todo },
+        input: { task },
       } = req;
 
       const result = await prisma.todo.create({
         data: {
-          content: todo,
+          task,
+          description: "",
+          handNotes: "",
         },
       });
       console.log(result);
     }),
-  todos: t.procedure.query(async () => {
-    const result = await prisma.todo.findMany();
-    console.log(result);
+  todos: t.procedure
+    .input(z.object({ isDone: z.boolean().optional() }))
+    .query(async ({ input }) => {
+      const { isDone } = input;
 
-    return result;
-  }),
+      if (isDone) {
+        const filteredTodos = await prisma.todo.findMany({
+          where: {
+            isDone: true,
+          },
+        });
+        return filteredTodos;
+      }
+
+      return await prisma.todo.findMany();
+    }),
+  todo: t.procedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const { id } = input;
+
+      const item = await prisma.todo.findFirst({
+        where: {
+          id,
+        },
+      });
+      return item;
+    }),
+  deleteTodo: t.procedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      const { id } = input;
+
+      const item = await prisma.todo.delete({
+        where: {
+          id,
+        },
+      });
+      return item;
+    }),
 });
 
 app.use(

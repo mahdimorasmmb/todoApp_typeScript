@@ -1,27 +1,34 @@
-import React, { ReactEventHandler, useState } from "react";
-import Button from "../../components/Button";
-import TextField from "../../components/TextField";
 import generateKey from "../../tools/generateKey";
 import { trpc } from "../../utils/trpc";
 import AddTodoItem from "./AddTodoItem";
 import TodoItem from "./TodoItem";
 
 const TodoContainer = () => {
-  const todos = trpc.todos.useQuery();
-  const mutation = trpc.addTodo.useMutation();
+  const getTodos = trpc.todos.useQuery({});
+  const addTodo = trpc.addTodo.useMutation();
+  const deletedTodo = trpc.deleteTodo.useMutation()
 
   const onAddClicked = async (task: string) => {
-    await mutation.mutate({ todo: task },{onSuccess:()=>{
-      todos.refetch()
-    }});
-
-
+    await addTodo.mutate(
+      { task },
+      {
+        onSuccess: () => {
+          getTodos.refetch();
+        },
+      }
+    );
   };
+
+  const onDeleteClicked = (id:string) =>{
+    deletedTodo.mutate({id},{onSuccess:() =>{
+      getTodos.refetch();
+    }})
+  } 
   return (
     <>
       <AddTodoItem onAddClicked={onAddClicked} />
-      {todos.data?.map((todo) => (
-        <TodoItem key={generateKey(todo.id)} todo={todo.content} />
+      {getTodos.data?.map((todo) => (
+        <TodoItem key={generateKey(todo.id)}{...todo} onDeleteClicked={onDeleteClicked} />
       ))}
     </>
   );
