@@ -31,14 +31,21 @@ const appRouter = t.router({
       });
     }),
   todos: t.procedure
-    .input(z.object({ isDone: z.boolean().optional() }))
+    .input(z.object({ isDone: z.string().optional() }))
     .query(async ({ input }) => {
       const { isDone } = input;
 
-      if (isDone) {
+      if (isDone === "true") {
         const filteredTodos = await prisma.todo.findMany({
           where: {
             isDone: true,
+          },
+        });
+        return filteredTodos;
+      } else if (isDone === "false") {
+        const filteredTodos = await prisma.todo.findMany({
+          where: {
+            isDone: false,
           },
         });
         return filteredTodos;

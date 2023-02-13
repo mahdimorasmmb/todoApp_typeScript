@@ -24,12 +24,9 @@ const Button = ({
   type = "button",
   className,
 }: Prpos) => {
+  const style = ` ${className} border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase   ${variantButton[variant]}  `;
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase ${variantButton[variant]} ${className}`}
-    >
+    <button type={type} onClick={onClick} className={style}>
       {children}
     </button>
   );
