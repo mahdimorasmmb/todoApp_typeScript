@@ -20,20 +20,15 @@ type Context = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
   addTodo: t.procedure
-    .input(z.object({ task: z.string() }))
-    .mutation(async (req) => {
-      const {
-        input: { task },
-      } = req;
-
+    .input(z.object({ task: z.string().optional() }))
+    .mutation(async ({ input: { task } }) => {
       const result = await prisma.todo.create({
         data: {
-          task,
-          description: "",
+          task: task ? task : "",
           handNotes: "",
+          description: "",
         },
       });
-      console.log(result);
     }),
   todos: t.procedure
     .input(z.object({ isDone: z.boolean().optional() }))
@@ -53,21 +48,19 @@ const appRouter = t.router({
     }),
   todo: t.procedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input }) => {
-      const { id } = input;
-
+    .query(async ({ input: { id } }) => {
       const item = await prisma.todo.findFirst({
         where: {
           id,
         },
       });
+      if (!item) throw new Error("not find item in data Base");
+
       return item;
     }),
   deleteTodo: t.procedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }) => {
-      const { id } = input;
-
+    .mutation(async ({ input: { id } }) => {
       const item = await prisma.todo.delete({
         where: {
           id,
@@ -75,6 +68,29 @@ const appRouter = t.router({
       });
       return item;
     }),
+  updateTodo: t.procedure
+    .input(
+      z.object({
+        id: z.string(),
+        description: z.string().optional(),
+        task: z.string().optional(),
+        isDone: z.boolean().optional(),
+        handNotes: z.string().optional(),
+      })
+    )
+    .mutation(
+      async ({ input: { id, description, task, isDone, handNotes } }) => {
+        await prisma.todo.update({
+          where: { id },
+          data: {
+            description: description ? description : "",
+            task: task ? task : "",
+            isDone,
+            handNotes: handNotes ? handNotes : "",
+          },
+        });
+      }
+    ),
 });
 
 app.use(

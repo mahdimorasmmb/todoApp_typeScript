@@ -1,11 +1,37 @@
-import React from 'react'
+import React from "react";
 
-const CheckBoxField = () => {
-  return (
-    <div className='cursor-pointer flex items-center '>
-        <input className='-m-[1px] cursor-pointer w-[15px] h-[15px] rounded ' type="checkbox" />
-    </div>
-  )
+interface Props {
+  value?: boolean;
+  label?: string;
+  name?: string;
+  defaultValue?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export default CheckBoxField
+const CheckBoxField = ({
+  label,
+  name,
+  defaultValue,
+  onChange,
+  value,
+}: Props) => {
+  return (
+    <div className="flex cursor-pointer items-center ">
+      <input
+        checked={value}
+        onChange={onChange}
+        defaultChecked={defaultValue}
+        name={name}
+        className="-m-[1px] h-[15px] w-[15px] cursor-pointer rounded "
+        type="checkbox"
+      />
+      {label && (
+        <label className="ml-1" htmlFor={name}>
+          {label}
+        </label>
+      )}
+    </div>
+  );
+};
+
+export default CheckBoxField;

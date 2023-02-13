@@ -1,7 +1,9 @@
 /*
   Warnings:
 
-  - You are about to drop the column `test` on the `Todo` table. All the data in the column will be lost.
+  - Made the column `description` on table `Todo` required. This step will fail if there are existing NULL values in that column.
+  - Made the column `handNotes` on table `Todo` required. This step will fail if there are existing NULL values in that column.
+  - Made the column `task` on table `Todo` required. This step will fail if there are existing NULL values in that column.
 
 */
 -- RedefineTables
