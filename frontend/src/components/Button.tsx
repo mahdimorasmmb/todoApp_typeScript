@@ -3,10 +3,11 @@ import React, { ReactNode } from "react";
 type TypeButtonKey = keyof typeof variantButton;
 
 interface Prpos {
+  className?: string;
   children: ReactNode;
   variant?: TypeButtonKey;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
-  type?:React.ButtonHTMLAttributes<HTMLButtonElement>['type']
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
 
 const variantButton = {
@@ -16,12 +17,18 @@ const variantButton = {
   transparent: "bg-transparent text-TEXT_COLOR",
 };
 
-const Button = ({ children, variant = "transparent", onClick,type="button" }: Prpos) => {
+const Button = ({
+  children,
+  variant = "transparent",
+  onClick,
+  type = "button",
+  className,
+}: Prpos) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase ${variantButton[variant]}`}
+      className={`border-no cursor-pointer rounded-md  py-3 px-4 text-base uppercase ${variantButton[variant]} ${className}`}
     >
       {children}
     </button>

@@ -63,7 +63,7 @@ const EditContainer = ({ taskId }: Props) => {
 
   if (data && isSuccess) {
     return (
-      <div className="absolute top-0 right-0 bottom-0 w-[400px] bg-white py-3 px-4 shadow-[0_0_5px_rgb(78,78,78)]">
+      <div className="absolute top-0 right-0 bottom-0 w-[400px] bg-white py-3 px-4 shadow-[0_0_5px_rgb(78,78,78)] overflow-auto">
         <h2 className="text-2xl font-bold">Edit Todo</h2>
         <div>
           <TextField
@@ -91,13 +91,17 @@ const EditContainer = ({ taskId }: Props) => {
               setFormData({ ...formData, description: e.target.value });
             }}
           />
-          <ConvasField />
+          <ConvasField
+          label="Hand Notes"
+            value={formData.handNotes}
+            onInput={(value) => setFormData({ ...formData, handNotes: value })}
+          />
         </div>
-        <div className="mt-2">
-          <Button onClick={handleUpdate} variant="primary">
+        <div className="flex mt-3">
+          <Button className="flex-grow mr-3" onClick={handleUpdate} variant="primary">
             Save
           </Button>
-          <Button onClick={closeDrawer} variant="secondary">
+          <Button  className="flex-grow " onClick={closeDrawer} variant="secondary">
             Cansel
           </Button>
         </div>
