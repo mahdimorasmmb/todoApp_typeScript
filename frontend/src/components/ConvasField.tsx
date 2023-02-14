@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 interface Props {
   label?: string;
   value: any;
-  onInput: (value: string) => void;
+  onInput: (value:{}) => void
+  name:string
 }
 
-const ConvasField = ({ label, value, onInput }: Props) => {
+const ConvasField = ({ label, value, onInput,name }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(Boolean);
   const [perviousCoordinates, setPreviousCoordinates] = useState({
@@ -59,12 +60,13 @@ const ConvasField = ({ label, value, onInput }: Props) => {
   };
   const endDrawing = () => {
     setIsDrawing(false);
-    onInput(canvasRef.current?.toDataURL() || "");
+    onInput({[name]:canvasRef.current?.toDataURL() || ""});
   };
   return (
     <>
       {label && <label>{label}</label>}
       <canvas
+      
         width="1800"
         height="600"
         onMouseDown={enableDrawing}
@@ -78,4 +80,4 @@ const ConvasField = ({ label, value, onInput }: Props) => {
   );
 };
 
-export default ConvasField;
+export default memo(ConvasField);

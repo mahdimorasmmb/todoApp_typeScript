@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from "../../components/Button";
 import CheckBoxField from "../../components/CheckBoxField";
 import ConvasField from "../../components/ConvasField";
@@ -14,9 +14,17 @@ interface Props {
 
 const EditContainer = ({ taskId }: Props) => {
   const [, setTaskeId] = useAtom(taskAtom);
-  const { data, isLoading, isSuccess, remove } = trpc.todo.useQuery({
-    id: taskId,
-  });
+  const { data, isLoading, isSuccess, remove } = trpc.todo.useQuery(
+    {
+      id: taskId,
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: Infinity,
+    }
+  );
   const [formData, setFormData] = useState({
     description: data?.description,
     task: data?.task,
@@ -52,6 +60,10 @@ const EditContainer = ({ taskId }: Props) => {
     }
   };
 
+  const onFormChange = useCallback((value: {}) => {
+    setFormData((prev) => ({ ...prev, ...value }));
+  }, []);
+
   useEffect(() => {
     setFormData({
       description: data?.description === null ? "" : data?.description,
@@ -63,45 +75,48 @@ const EditContainer = ({ taskId }: Props) => {
 
   if (data && isSuccess) {
     return (
-      <div className="absolute top-0 right-0 bottom-0 w-[400px] bg-white py-3 px-4 shadow-[0_0_5px_rgb(78,78,78)] overflow-auto">
+      <div className="absolute top-0 right-0 bottom-0 w-[400px] overflow-auto bg-white py-3 px-4 shadow-[0_0_5px_rgb(78,78,78)]">
         <h2 className="text-2xl font-bold">Edit Todo</h2>
         <div>
           <TextField
-            name="Task"
+            name="task"
             label="Taske"
             defaultValue={data.task === null ? "" : data.task}
-            onChange={(e) => {
-              setFormData({ ...formData, task: e.target.value });
-            }}
+            onInput={onFormChange}
           />
           <CheckBoxField
             defaultValue={data.isDone}
             // value={formData.isDone}
             name="isDone"
             label="is Done?"
-            onChange={(e) => {
-              setFormData({ ...formData, isDone: e.target.checked });
-            }}
+            onInput={onFormChange}
           />
           <TextAreaField
             defaultValue={data.description === null ? "" : data.description}
             name="description"
             label="Description"
-            onChange={(e) => {
-              setFormData({ ...formData, description: e.target.value });
-            }}
+            onInput={onFormChange}
           />
           <ConvasField
-          label="Hand Notes"
+            name="handNotes"
+            label="Hand Notes"
             value={formData.handNotes}
-            onInput={(value) => setFormData({ ...formData, handNotes: value })}
+            onInput={onFormChange}
           />
         </div>
-        <div className="flex mt-3">
-          <Button className="flex-grow mr-3" onClick={handleUpdate} variant="primary">
+        <div className="mt-3 flex">
+          <Button
+            className="mr-3 flex-grow"
+            onClick={handleUpdate}
+            variant="primary"
+          >
             Save
           </Button>
-          <Button  className="flex-grow " onClick={closeDrawer} variant="secondary">
+          <Button
+            className="flex-grow "
+            onClick={closeDrawer}
+            variant="secondary"
+          >
             Cansel
           </Button>
         </div>

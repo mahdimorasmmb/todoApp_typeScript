@@ -22,11 +22,10 @@ const TodoItem = ({
   const updateTodo = trpc.updateTodo.useMutation();
 
   const handleTaskDone = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: string
+   value:{},
   ) => {
     updateTodo.mutate(
-      { id, task, isDone: e.target.checked, ...otherProps },
+      { id, task, ...otherProps,...value },
       {
         onSuccess: () => {
           refetch();
@@ -38,8 +37,9 @@ const TodoItem = ({
     <div className="my-3 flex bg-WHITE py-3 px-4 ">
       <div className="mr-1 flex ">
         <CheckBoxField
+        name="isDone"
           defaultValue={isDone}
-          onChange={(e) => handleTaskDone(e, id)}
+          onInput={(value)=>handleTaskDone(value)}
         />
       </div>
       <div className={`mr-auto  flex items-center ${isDone && "line-through"}`}>

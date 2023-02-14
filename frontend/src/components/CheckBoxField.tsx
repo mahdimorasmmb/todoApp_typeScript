@@ -1,25 +1,25 @@
-import React from "react";
+import React, { memo } from "react";
 
 interface Props {
   value?: boolean;
   label?: string;
-  name?: string;
+  name: string;
   defaultValue?: boolean;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onInput: (value:{}) => void
 }
 
 const CheckBoxField = ({
   label,
   name,
   defaultValue,
-  onChange,
+  onInput,
   value,
 }: Props) => {
   return (
     <div className="flex cursor-pointer items-center ">
       <input
         checked={value}
-        onChange={onChange}
+        onChange={(e) => onInput({[e.target.name]:e.target.checked})}
         defaultChecked={defaultValue}
         name={name}
         className="-m-[1px] h-[15px] w-[15px] cursor-pointer rounded "
@@ -34,4 +34,4 @@ const CheckBoxField = ({
   );
 };
 
-export default CheckBoxField;
+export default memo(CheckBoxField);

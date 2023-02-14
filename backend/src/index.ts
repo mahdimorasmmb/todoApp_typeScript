@@ -51,7 +51,7 @@ const appRouter = t.router({
         return filteredTodos;
       }
 
-      return await prisma.todo.findMany();
+      return await prisma.todo.findMany({});
     }),
   todo: t.procedure
     .input(z.object({ id: z.string() }))

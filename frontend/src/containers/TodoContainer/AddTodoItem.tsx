@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import useAutoFocus from "../../hooks/useAutoFocus";
@@ -10,22 +10,29 @@ interface Props {
 const AddTodoItem = ({ onAddClicked }: Props) => {
   const inputFieldRef = useAutoFocus();
 
-  const [task, setTask] = useState("");
+  const [formData, setFormData] = useState({
+    task: "",
+  });
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAddClicked(task);
-    setTask("");
+    onAddClicked(formData.task);
+    setFormData((prev) => ({...prev, task: "" }));
   };
 
+  const onFormChange = useCallback((value: {}) => {
+    setFormData((prev) => ({ ...prev, ...value }));
+  }, []);
+
   return (
-    <form onSubmit={handleSumbit}>
+    <form  onSubmit={handleSumbit}>
       <div className="flex">
         <div className="mr-[10px] flex-grow">
           <TextField
+            name="task"
             ref={inputFieldRef}
-            value={task}
-            onChange={(event) => setTask(event.target.value)}
+            value={formData.task}
+            onInput={onFormChange}
           />
         </div>
         <div>

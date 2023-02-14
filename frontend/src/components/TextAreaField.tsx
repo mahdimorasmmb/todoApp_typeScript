@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 
 interface Props {
   value?: string;
   label?: string;
   name?: string;
   defaultValue?: string;
-  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+  onInput:(value:{}) =>void
 }
 
 const TextAreaField = ({
@@ -13,14 +13,14 @@ const TextAreaField = ({
   label,
   name,
   defaultValue,
-  onChange,
+  onInput,
 }: Props) => {
   return (
     <>
       {label && <label htmlFor={name}>{label}</label>}
       <textarea
         value={value}
-        onChange={onChange}
+        onChange={(e) => onInput({[e.target.name]:e.target.value})}
         defaultValue={defaultValue}
         name={name}
         className="h-52 w-full rounded border border-[#c7c7c7] py-3 px-4 outline-PRIMARY_COLOR "
@@ -29,4 +29,4 @@ const TextAreaField = ({
   );
 };
 
-export default TextAreaField;
+export default memo(TextAreaField);

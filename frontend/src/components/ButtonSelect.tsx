@@ -1,3 +1,4 @@
+import { memo } from "react";
 import generateKey from "../tools/generateKey";
 import Button from "./Button";
 
@@ -31,4 +32,4 @@ const ButtonSelect = ({ value, options, onInput }: Props) => {
   );
 };
 
-export default ButtonSelect;
+export default memo(ButtonSelect);
