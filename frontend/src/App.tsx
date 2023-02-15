@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink } from "@trpc/client";
 import React, { useState } from "react";
 import { trpc } from "./utils/trpc";
@@ -7,11 +7,10 @@ import { trpc } from "./utils/trpc";
 import TodoContainer from "./containers/TodoContainer";
 import Header from "./partials/Header/Header";
 import EditContainer from "./containers/EditContainer";
-import { useAtom } from "jotai";
-import { taskAtom } from "./store/selectedTask";
+import { withSideDrawer } from "./hoc/withSideDrawer";
 
+const EditContainerWithSideDrawer = withSideDrawer(EditContainer)
 export function App() {
-  const [taskId] = useAtom(taskAtom);
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -34,7 +33,7 @@ export function App() {
         <Header />
         <div className="mr-auto ml-auto w-[500px]">
           <TodoContainer />
-         {taskId &&  <EditContainer taskId={taskId} />}
+          <EditContainerWithSideDrawer  />
         </div>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

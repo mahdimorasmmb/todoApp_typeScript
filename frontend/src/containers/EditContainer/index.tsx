@@ -5,20 +5,21 @@ import CheckBoxField from "../../components/CheckBoxField";
 import ConvasField from "../../components/ConvasField";
 import TextAreaField from "../../components/TextAreaField";
 import TextField from "../../components/TextField";
-import { taskAtom } from "../../store/selectedTask";
+import { taskAtom, useAppState } from "../../store";
 import { trpc, TodoType } from "../../utils/trpc";
 
 interface Props {
-  taskId: string;
+  id: string;
 }
 
-const EditContainer = ({ taskId }: Props) => {
-  const [, setTaskeId] = useAtom(taskAtom);
+const EditContainer = ({ id }: Props) => {
+  const { appState, close } = useAppState();
   const { data, isLoading, isSuccess, remove } = trpc.todo.useQuery(
     {
-      id: taskId,
+      id: appState.editTodoId,
     },
     {
+      enabled: !!appState.editTodoId,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: false,
@@ -36,7 +37,7 @@ const EditContainer = ({ taskId }: Props) => {
   const todos = trpc.useContext();
 
   const closeDrawer = () => {
-    setTaskeId("");
+    close();
   };
 
   const handleUpdate = async () => {
@@ -53,7 +54,7 @@ const EditContainer = ({ taskId }: Props) => {
           onSuccess: async () => {
             await todos.todos.refetch();
             remove();
-            setTaskeId("");
+            closeDrawer();
           },
         }
       );
@@ -75,7 +76,7 @@ const EditContainer = ({ taskId }: Props) => {
 
   if (data && isSuccess) {
     return (
-      <div className="absolute top-0 right-0 bottom-0 w-[400px] overflow-auto bg-white py-3 px-4 shadow-[0_0_5px_rgb(78,78,78)]">
+      <>
         <h2 className="text-2xl font-bold">Edit Todo</h2>
         <div>
           <TextField
@@ -120,7 +121,7 @@ const EditContainer = ({ taskId }: Props) => {
             Cansel
           </Button>
         </div>
-      </div>
+      </>
     );
   }
   return null;

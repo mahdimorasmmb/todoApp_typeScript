@@ -50,8 +50,8 @@ const appRouter = t.router({
         });
         return filteredTodos;
       }
-
-      return await prisma.todo.findMany({});
+      const items = await prisma.todo.findMany();
+      if (items) return items;
     }),
   todo: t.procedure
     .input(z.object({ id: z.string() }))

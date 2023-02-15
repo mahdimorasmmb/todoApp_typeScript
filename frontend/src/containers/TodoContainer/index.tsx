@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
 import ButtonSelect from "../../components/ButtonSelect";
-import { taskAtom } from "../../store/selectedTask";
+import {  useAppState } from "../../store";
 import generateKey from "../../tools/generateKey";
 import { trpc } from "../../utils/trpc";
 import EditContainer from "../EditContainer";
@@ -10,8 +10,8 @@ import TodoItem from "./TodoItem";
 
 const TodoContainer = () => {
   const [todoStateFilter, setTodoStateFilter] = useState("all");
-  const [, setTaskId] = useAtom(taskAtom);
-  const getTodos = trpc.todos.useQuery({isDone:todoStateFilter});
+  const {open}  = useAppState()
+  const getTodos = trpc.todos.useQuery({ isDone: todoStateFilter });
   const addTodo = trpc.addTodo.useMutation();
   const deletedTodo = trpc.deleteTodo.useMutation();
 
@@ -38,12 +38,12 @@ const TodoContainer = () => {
   };
 
   const onEditClicked = (id: string) => {
-    setTaskId(id);
+    open(id)
   };
 
   const onSelectOption = (value: string) => {
     setTodoStateFilter(value);
-    getTodos.refetch()
+    getTodos.refetch();
   };
 
   const buttonSelectOption = [
