@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   href: string;
@@ -7,12 +8,12 @@ interface Props {
 
 const HeaderLink = ({ href, children }: Props) => {
   return (
-    <a
+    <Link
       className="cursor-pointer  text-INVERSE_TEXT_COLOR  no-underline m-1"
-      href={href}
+      to={href}
     >
       {children}
-    </a>
+    </Link>
   );
 };
 

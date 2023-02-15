@@ -11,5 +11,10 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    @apply bg-BG_COLOR text-base text-TEXT_COLOR
+    @apply bg-BG_COLOR text-base text-TEXT_COLOR 
+    
+}
+
+button {
+    border:none
 }

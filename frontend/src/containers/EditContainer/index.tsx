@@ -5,6 +5,7 @@ import CheckBoxField from "../../components/CheckBoxField";
 import ConvasField from "../../components/ConvasField";
 import TextAreaField from "../../components/TextAreaField";
 import TextField from "../../components/TextField";
+import { withSideDrawer } from "../../hoc/withSideDrawer";
 import { taskAtom, useAppState } from "../../store";
 import { trpc, TodoType } from "../../utils/trpc";
 
@@ -127,4 +128,4 @@ const EditContainer = ({ id }: Props) => {
   return null;
 };
 
-export default EditContainer;
+export default withSideDrawer(EditContainer);
