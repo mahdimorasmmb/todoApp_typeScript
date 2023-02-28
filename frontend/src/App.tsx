@@ -18,13 +18,14 @@ const TodoContainerLayzy = lazy(() => import("./containers/TodoContainer"));
 const StatsContainerLayzy = lazy(() => import("./containers/StatsContainer"));
 const AboutContainerLayzy = lazy(() => import("./containers/AboutContainer"));
 
+
 export function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "http://localhost:4000/trpc",
+          url: import.meta.env.VITE_REACT_APP_BASE_URL,
         }),
       ],
     })

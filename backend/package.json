@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "start":"ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "dev_ssr": "nodemon src/ssr_server.ts"
   },
