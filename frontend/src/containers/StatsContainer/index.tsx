@@ -1,15 +1,11 @@
 import React from "react";
 import { trpc } from "../../utils/trpc";
 
-
-
-
-
 const StatsContainer = () => {
 //   const { data } = trpc.todos.useQuery({});
  const {data} =  trpc.todos.useQuery({})
-  const todoDone = data?.filter(({ isDone }) => isDone);
-  const todoNotDone = data?.filter(({ isDone }) => !isDone);
+  const todoDone = data?.filter((todo) => todo?.isDone);
+  const todoNotDone = data?.filter((todo) => !todo?.isDone);
 
   return (
     <div className="">
@@ -36,9 +32,9 @@ const StatsContainer = () => {
             {todoNotDone?.map((todo) => (
               <li
                 className="mb-[10px] rounded bg-WHITE py-2 px-4 shadow-[0_0_5px_rgb(78,78,78)]"
-                key={todo.id}
+                key={todo?.id}
               >
-                {todo.task}
+                {todo?.task}
               </li>
             ))}
           </ul>
