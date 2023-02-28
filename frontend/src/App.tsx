@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink } from "@trpc/client";
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { client, Provider, trpc } from "./utils/trpc";
+import { trpc } from "./utils/trpc";
 
 
 import Header from "./partials/Header/Header";
@@ -22,7 +22,7 @@ const AboutContainerLayzy = lazy(() => import("./containers/AboutContainer"));
 export function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
-    client({
+    trpc.createClient({
       links: [
         httpBatchLink({
           url: import.meta.env.VITE_REACT_APP_BASE_URL,
@@ -32,7 +32,7 @@ export function App() {
   );
 
   return (
-    <Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
        
           <Header />
@@ -68,6 +68,6 @@ export function App() {
           <ReactQueryDevtools initialIsOpen={false} />
        
       </QueryClientProvider>
-    </Provider>
+    </trpc.Provider>
   );
 }

@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "vite_build": "   concurrently \"cd frontend && yarn  && yarn  build\"  "
+    "vite_build": "   concurrently \"cd frontend &&  yarn  build\"  ",
+    "client_install": "   concurrently \"cd frontend && yarn  \"  ",
+    "server_install": "   concurrently \"cd server && yarn  \"  ",
+    "install":"yarn client_install && yarn server_install"
   },
   "repository": "https://github.com/mahdimorasmmb/todoApp_typeScript.git",
   "author": "mahdi morasaeiyan <mahdimoras@gmail.com>",
