@@ -12,3 +12,5 @@ export type TodoType = RouterOutput['todo']
 
 export const trpc = createTRPCReact<AppRouter>();
 
+export const client = trpc.createClient
+
