@@ -1,0 +1,14 @@
+{
+  "name": "todoApp_typeScript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "vite_build": "   concurrently \"cd frontend && yarn run && yarn  build\"  "
+  },
+  "repository": "https://github.com/mahdimorasmmb/todoApp_typeScript.git",
+  "author": "mahdi morasaeiyan <mahdimoras@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
