@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 
 import { inferAsyncReturnType, initTRPC } from "@trpc/server";
@@ -109,6 +109,11 @@ app.use(
     createContext,
   })
 );
+
+app.get("/test",(req:Request,res:Response)=>{
+      res.status(200).send("Ok")
+      
+})
 
 app.listen(4000, () => {
   console.log("run server ", "4000");
