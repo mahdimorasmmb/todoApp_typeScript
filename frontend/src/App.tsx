@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink } from "@trpc/client";
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { client, trpc } from "./utils/trpc";
+import { client, Provider, trpc } from "./utils/trpc";
 
 
 import Header from "./partials/Header/Header";
@@ -32,7 +32,7 @@ export function App() {
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
        
           <Header />
@@ -68,6 +68,6 @@ export function App() {
           <ReactQueryDevtools initialIsOpen={false} />
        
       </QueryClientProvider>
-    </trpc.Provider>
+    </Provider>
   );
 }
