@@ -2,11 +2,13 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import cors from "cors";
 
-import  {inferAsyncReturnType,initTRPC}  from "@trpc/server";
+import { initTRPC} from "@trpc/server";
 
 import * as trpcExpress from "@trpc/server/adapters/express";
+
 import { z } from "zod";
 import morgan from "morgan";
+import { Context,createContext } from "./context";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -14,11 +16,6 @@ app.use(cors());
 app.use(morgan('common'))
 
 // created for each request
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({}); // no context
-type Context = inferAsyncReturnType<typeof createContext>;
 
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({

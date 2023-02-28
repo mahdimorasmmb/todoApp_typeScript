@@ -4,11 +4,11 @@ import { httpBatchLink } from "@trpc/client";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { trpc } from "./utils/trpc";
 
-import TodoContainer from "./containers/TodoContainer";
+
 import Header from "./partials/Header/Header";
-import StatsContainer from "./containers/StatsContainer";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AboutContainer from "./containers/AboutContainer";
+
+import {  Route, Routes } from "react-router-dom";
+
 import PageLayout from "./components/PageLayout";
 
 const EditContainerWithSideDrawerLayzy = lazy(

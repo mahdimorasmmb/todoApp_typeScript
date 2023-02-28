@@ -1,8 +1,13 @@
 import React from "react";
 import { trpc } from "../../utils/trpc";
 
+
+
+
+
 const StatsContainer = () => {
-  const { data } = trpc.todos.useQuery({});
+//   const { data } = trpc.todos.useQuery({});
+ const {data} =  trpc.todos.useQuery({})
   const todoDone = data?.filter(({ isDone }) => isDone);
   const todoNotDone = data?.filter(({ isDone }) => !isDone);
 
