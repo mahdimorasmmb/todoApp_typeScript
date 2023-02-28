@@ -5,10 +5,12 @@ import cors from "cors";
 import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { z } from "zod";
+import morgan from "morgan";
 
 const prisma = new PrismaClient();
 const app = express();
 app.use(cors());
+app.use(morgan('common'))
 
 // created for each request
 const createContext = ({
