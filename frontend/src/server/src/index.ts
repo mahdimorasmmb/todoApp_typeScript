@@ -2,7 +2,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import cors from "cors";
 
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
+import  {inferAsyncReturnType,initTRPC}  from "@trpc/server";
+
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { z } from "zod";
 import morgan from "morgan";
